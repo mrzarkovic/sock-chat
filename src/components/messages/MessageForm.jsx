@@ -3,11 +3,9 @@ import React from 'react';
 class MessageForm extends React.Component {
   render () {
     return (
-      <div className="row">
-        <form onSubmit={ this.onSubmit.bind(this) }>
-          <input type="text" className="form-control" ref="text" placeholder="Please place message..." />
-        </form>
-      </div>
+      <form onSubmit={ this.onSubmit.bind(this) }>
+        <input type="text" className="form-control" ref="text" placeholder="Please place message..." />
+      </form>
     );
   }
 

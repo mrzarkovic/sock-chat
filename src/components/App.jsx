@@ -26,6 +26,7 @@ class App extends React.Component {
     this.socket.on('connect', this.connect.bind(this));
     this.socket.on('disconnect', this.disconnect.bind(this));
     this.socket.on('messageAdded', this.onMessageAdded.bind(this));
+    this.socket.on('userJoined', this.onUserJoined.bind(this));
   }
 
   connect () {
@@ -33,8 +34,11 @@ class App extends React.Component {
     console.log('Connected: ' + this.socket.id);
   }
 
-  disconnect () {
-    this.setState({status: 'disconnected'});
+  disconnect (users) {
+    this.setState({
+      status: 'disconnected',
+      users: users
+    });
   }
 
   emit (eventName, payload) {
@@ -47,20 +51,38 @@ class App extends React.Component {
     });
   }
 
+  setUser (user) {
+    this.setState({ user: user });
+  }
+
+  onUserJoined (users) {
+    this.setState({ users: users });
+  }
+
   render () {
     console.log(this.state.messages);
 
-    return (
-      <div className="row">
-        <div className="col-md-4">
-          <UserList { ...this.state } />
+    if (!this.state.user) {
+      return (
+        <div className="row">
+          <div className="col-sm-6 col-sm-offset-3">
+            <UserForm emit={ this.emit.bind(this) } setUser={ this.setUser.bind(this) } />
+          </div>
         </div>
-        <div className="col-md-8">
-          <MessageList { ...this.state } />
-          <MessageForm { ...this.state } emit={ this.emit.bind(this) } />
+      );
+    } else {
+      return (
+        <div className="row">
+          <div className="col-md-4">
+            <UserList { ...this.state } />
+          </div>
+          <div className="col-md-8">
+            <MessageList { ...this.state } />
+            <MessageForm { ...this.state } emit={ this.emit.bind(this) } />
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 

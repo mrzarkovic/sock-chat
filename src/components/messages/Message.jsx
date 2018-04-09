@@ -8,7 +8,7 @@ class Message extends React.Component {
 
     return (
       <div className="message">
-        <strong>{ formatedTime }</strong> - { message.text }
+        { formatedTime } <strong>{ message.user }</strong> - { message.text }
       </div>
     );
   }

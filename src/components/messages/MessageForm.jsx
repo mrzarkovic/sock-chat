@@ -14,7 +14,8 @@ class MessageForm extends React.Component {
 
     this.props.emit('addMessage', {
       timestamp: Date.now(),
-      text: this.refs.text.value.trim()
+      text: this.refs.text.value.trim(),
+      user: this.props.user.name
     });
 
     this.refs.text.value = '';
